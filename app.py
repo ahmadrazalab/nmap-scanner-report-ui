@@ -57,4 +57,4 @@ def download(file_name):
     return send_file(f'reports/{file_name}', as_attachment=True)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')
