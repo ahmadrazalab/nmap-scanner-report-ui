@@ -29,7 +29,7 @@ def get_recent_scans():
 @app.route('/scan', methods=['POST'])
 def scan():
     target = request.form['target']
-    output_file = f'reports/scan_{datetime.now().strftime("%Y%m%d_%H%M%S")}.txt'
+    output_file = f'reports/scan_{target}_{datetime.now().strftime("%Y%m%d_%H%M%S")}.txt'  # Include target in filename
     
     # Run Nmap command
     nmap_command = f'nmap -oN {output_file} {target}'

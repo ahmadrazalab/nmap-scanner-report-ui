@@ -1,0 +1,11 @@
+# Nmap 7.80 scan initiated Sat Mar 30 16:49:44 2024 as: nmap -oN reports/scan_google.com_20240330_164944.txt google.com
+Nmap scan report for google.com (142.250.194.46)
+Host is up (0.090s latency).
+Other addresses for google.com (not scanned): 2404:6800:4002:81f::200e
+rDNS record for 142.250.194.46: del12s02-in-f14.1e100.net
+Not shown: 998 filtered ports
+PORT    STATE SERVICE
+80/tcp  open  http
+443/tcp open  https
+
+# Nmap done at Sat Mar 30 16:50:08 2024 -- 1 IP address (1 host up) scanned in 23.91 seconds
