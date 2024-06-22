@@ -167,3 +167,83 @@ sudo supervisorctl start myapp
 ```
 
 This setup ensures your Python application is running on the specified port and accessible through NGINX.
+
+
+# IF not using a venv follow below 
+
+Given that you are not using a virtual environment, you can still create a `systemd` service to manage your Flask application with Gunicorn. Here is how you can do it:
+
+1. **Install Gunicorn**:
+    ```bash
+    pip install gunicorn
+    ```
+
+2. **Create a `systemd` Service File**: Create a new service file for your application. This file will instruct `systemd` on how to manage your Flask app.
+
+    Create a new file `/etc/systemd/system/myflaskapp.service` (you'll need root privileges for this):
+    ```bash
+    sudo nano /etc/systemd/system/myflaskapp.service
+    ```
+
+    Add the following content to the file:
+    ```ini
+    [Unit]
+    Description=Gunicorn instance to serve myflaskapp
+    After=network.target
+
+    [Service]
+    User=youruser
+    Group=www-data
+    WorkingDirectory=/path/to/your/app
+    ExecStart=/usr/local/bin/gunicorn --workers 3 --bind 0.0.0.0:6000 app:app
+
+    [Install]
+    WantedBy=multi-user.target
+    ```
+
+    Replace the placeholders:
+    - `youruser` with your username.
+    - `/path/to/your/app` with the path to your Flask application's directory.
+    - `/usr/local/bin/gunicorn` with the path to your Gunicorn executable. You can find this path using `which gunicorn`.
+
+3. **Reload `systemd` to Apply the New Service**:
+    ```bash
+    sudo systemctl daemon-reload
+    ```
+
+4. **Start the New Service**:
+    ```bash
+    sudo systemctl start myflaskapp
+    ```
+
+5. **Enable the Service to Start on Boot**:
+    ```bash
+    sudo systemctl enable myflaskapp
+    ```
+
+6. **Check the Status of Your Service**:
+    ```bash
+    sudo systemctl status myflaskapp
+    ```
+
+If everything is set up correctly, your Flask application should now be running under `systemd` with Gunicorn. The service will automatically start on boot and can be managed using the `systemctl` command.
+
+**Example Commands for Managing Your Service**:
+- **Start the service**:
+    ```bash
+    sudo systemctl start myflaskapp
+    ```
+- **Stop the service**:
+    ```bash
+    sudo systemctl stop myflaskapp
+    ```
+- **Restart the service**:
+    ```bash
+    sudo systemctl restart myflaskapp
+    ```
+- **Check the status of the service**:
+    ```bash
+    sudo systemctl status myflaskapp
+    ```
+
+This setup ensures your Flask app is managed efficiently by `systemd`, making it more robust and easier to manage.
